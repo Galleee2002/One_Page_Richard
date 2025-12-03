@@ -1,9 +1,6 @@
 import { create } from 'zustand';
 
-import { Database } from '@/types/database.types';
-
-// Usamos el tipo directo de la DB (ajusta según tu generación de tipos real)
-type Product = Database['public']['Tables']['products']['Row'];
+import { Product } from '@/types/product';
 
 interface ProductState {
   selectedProduct: Product | null;
