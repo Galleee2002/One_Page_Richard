@@ -1,15 +1,10 @@
-import { ProductDetailSheet } from "@/features/products/components/ProductDetailSheet";
+import React from "react";
 
 export default function PublicLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <>
-      {children}
-      <ProductDetailSheet />
-    </>
-  );
+  return <>{children}</>;
 }
 

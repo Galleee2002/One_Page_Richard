@@ -2,127 +2,103 @@
 
 import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight, Box, Layers } from "lucide-react"; // Iconos más "técnicos"
-import Link from "next/link";
+import { useScrollToSection } from "@/features/landing/hooks/use-scroll-to-section";
 
 export const Hero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollToSection } = useScrollToSection();
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"],
   });
 
-  // Parallax suave para los elementos de fondo
-  const yBackground = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const opacityText = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
+  // Parallax sutil
+  const yContent = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
+  const opacityContent = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+
+  const handleNavClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    sectionId: string
+  ) => {
+    e.preventDefault();
+    scrollToSection(sectionId);
+  };
 
   return (
     <section
-      ref={containerRef}
       id="hero"
-      className="relative min-h-[100vh] w-full overflow-hidden flex items-center justify-center bg-background"
+      ref={containerRef}
+      className="relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-background"
     >
-      {/* --- LAYER 0: Technical Grid Pattern (Ingeniería) --- */}
-      <div
-        className="absolute inset-0 z-0 opacity-[0.4]"
-        style={{
-          backgroundImage: `linear-gradient(to right, #e2e8f0 1px, transparent 1px), linear-gradient(to bottom, #e2e8f0 1px, transparent 1px)`,
-          backgroundSize: "40px 40px",
-          maskImage: "linear-gradient(to bottom, black 60%, transparent 100%)", // Se desvanece abajo
-        }}
-      />
+      {/* --- LAYER 0: Ambient Brand Glow (Marca Sutil) --- */}
+      {/* Usamos tus variables --primary (Amber) y --secondary (Coral) pero muy difuminadas */}
 
-      {/* --- LAYER 1: Ambient Brand Colors (Tus colores) --- */}
+      {/* Luz Cenital General */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[60vh] bg-gradient-to-b from-primary/5 to-transparent opacity-60 z-0 pointer-events-none" />
+
+      {/* Mancha de color Primario (Amber) */}
+      <div className="absolute top-[-20%] left-[-10%] w-[70vw] h-[70vw] rounded-full bg-primary/10 blur-[150px] pointer-events-none" />
+
+      {/* Mancha de color Secundario (Coral) para balancear */}
+      <div className="absolute bottom-[-10%] right-[-10%] w-[60vw] h-[60vw] rounded-full bg-secondary/10 blur-[150px] pointer-events-none" />
+
+      {/* --- LAYER 1: Content --- */}
       <motion.div
-        style={{ y: yBackground }}
-        className="absolute inset-0 z-0 overflow-hidden"
-      >
-        {/* Orbe Primario (Amarillo #FFBD59) */}
-        <div className="absolute -top-[10%] -left-[10%] w-[50vw] h-[50vw] rounded-full bg-primary/20 blur-[120px] mix-blend-multiply animate-pulse" />
-
-        {/* Orbe Secundario (Coral #E17480) */}
-        <div className="absolute top-[20%] -right-[10%] w-[40vw] h-[40vw] rounded-full bg-secondary/20 blur-[100px] mix-blend-multiply" />
-      </motion.div>
-
-      {/* --- LAYER 2: Content --- */}
-      <motion.div
-        style={{ opacity: opacityText }}
-        className="relative z-10 container mx-auto px-4 text-center flex flex-col items-center gap-8 pt-28 md:pt-32"
+        style={{ y: yContent, opacity: opacityContent }}
+        className="relative z-10 container mx-auto px-6 text-center flex flex-col items-center justify-center gap-8 h-screen"
       >
         {/* Título Principal */}
         <motion.h1
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="text-5xl md:text-7xl lg:text-8xl font-heading font-bold tracking-tighter text-foreground"
+          transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
+          className="text-5xl md:text-7xl lg:text-8xl font-medium tracking-tight text-foreground leading-[1.1]"
         >
-          Ingeniería{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
-            Tangible.
+          La forma sigue <br className="hidden md:block" />
+          {/* Usamos una opacidad del foreground en lugar de un color fijo */}
+          <span className="text-foreground/60 italic font-serif">
+            a la imaginación.
           </span>
-          <br />
-          Estética Pura.
         </motion.h1>
 
-        {/* Subtítulo */}
+        {/* Subtítulo: Usamos 'muted-foreground' para la jerarquía visual correcta */}
         <motion.p
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="max-w-2xl text-lg md:text-xl text-neutral-600 md:leading-relaxed font-light"
+          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+          className="max-w-xl text-lg md:text-xl text-muted-foreground font-light leading-relaxed"
         >
-          Transformamos modelos digitales en objetos físicos de alta precisión.
-          Desde prototipos de ingeniería hasta piezas de arte minimalista.
-          <br className="hidden md:block" /> Tu visión, capa por capa.
+          Materializamos ideas complejas con acabados de galería. Diseño
+          paramétrico y fabricación aditiva de alta fidelidad.
         </motion.p>
 
-        {/* CTA Buttons */}
+        {/* Botones */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="flex flex-col sm:flex-row gap-4 mt-6"
+          transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
+          className="flex flex-col sm:flex-row gap-6 items-center"
         >
-          {/* Botón Primario: Amarillo con texto oscuro (Alto Contraste) */}
-          <Link
+          {/* Botón Secundario: Link limpio */}
+          <a
             href="#products"
-            className="group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-lg bg-primary px-8 font-semibold text-primary-foreground shadow-md transition-all duration-300 hover:bg-primary/90 hover:-translate-y-1"
+            onClick={(e) => handleNavClick(e, "products")}
+            className="group relative text-foreground text-sm font-semibold tracking-wide cursor-pointer"
           >
-            <span className="mr-2">Ver Catálogo</span>
-            <Layers className="h-4 w-4 transition-transform group-hover:rotate-12" />
-          </Link>
+            <span className="relative z-10 border-b border-foreground/30 pb-1 group-hover:border-primary transition-colors duration-300">
+              Ver Colección
+            </span>
+          </a>
 
-          {/* Botón Secundario: Outline limpio */}
-          <Link
+          {/* Botón Primario: Usa tu color 'primary' (Amber) */}
+          <a
             href="#contact"
-            className="inline-flex h-12 items-center justify-center rounded-lg border border-neutral-200 bg-white px-8 font-medium text-foreground transition-colors hover:bg-neutral-50 hover:border-neutral-300 shadow-sm"
+            onClick={(e) => handleNavClick(e, "contact")}
+            className="px-8 py-3 rounded-full bg-primary text-primary-foreground text-sm font-medium transition-transform hover:scale-105 active:scale-95 shadow-lg shadow-primary/20 cursor-pointer"
           >
-            Cotizar Proyecto
-          </Link>
-        </motion.div>
-
-        {/* Elemento Decorativo 3D (Opcional - Imagen Flotante) */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8, rotateX: 20 }}
-          animate={{ opacity: 1, scale: 1, rotateX: 0 }}
-          transition={{ duration: 1, delay: 0.5, type: "spring" }}
-          className="mt-12 md:mt-16 w-full max-w-4xl rounded-xl border border-neutral-200 bg-white/50 backdrop-blur-sm p-2 shadow-2xl"
-        >
-          {/* Aquí iría una imagen REAL de una pieza impresa en alta calidad sobre fondo blanco/gris */}
-          <div className="aspect-[16/6] rounded-lg overflow-hidden relative bg-neutral-100">
-            {/* Placeholder técnico hasta que tengas la foto real */}
-            <div className="absolute inset-0 flex items-center justify-center text-neutral-300">
-              <div className="text-center">
-                <Box className="w-16 h-16 mx-auto mb-2 opacity-50" />
-                <span className="text-sm font-mono uppercase tracking-widest">
-                  Render de Pieza Destacada
-                </span>
-              </div>
-            </div>
-            {/* Descomentar cuando tengas la imagen */}
-            {/* <img src="/tu-pieza-3d-minimalista.jpg" alt="Pieza 3D" className="w-full h-full object-cover" /> */}
-          </div>
+            Iniciar Proyecto
+          </a>
         </motion.div>
       </motion.div>
     </section>

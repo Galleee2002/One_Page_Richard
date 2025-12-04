@@ -2,6 +2,8 @@ import { StickyNavbar } from "@/features/landing/components/StickyNavbar"; // <-
 
 import { Hero } from "@/features/landing/components/Hero";
 
+import { About } from "@/features/landing/components/About";
+
 import { ProductsSection } from "@/features/products/ProductsSection";
 
 
@@ -27,6 +29,12 @@ export default function HomePage() {
       {/* 3. Products Section */}
 
       <ProductsSection />
+
+
+
+      {/* 4. About Section */}
+
+      <About />
 
 
 

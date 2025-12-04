@@ -22,6 +22,8 @@ import {
 
 } from "@/components/ui/sheet"; // Para menú móvil
 
+import { useScrollToSection } from "@/features/landing/hooks/use-scroll-to-section";
+
 
 
 export const StickyNavbar = () => {
@@ -31,6 +33,8 @@ export const StickyNavbar = () => {
   const [isHidden, setIsHidden] = useState(false);
 
   const [isScrolled, setIsScrolled] = useState(false);
+
+  const { scrollToSection } = useScrollToSection();
 
 
 
@@ -66,15 +70,23 @@ export const StickyNavbar = () => {
 
   const navLinks = [
 
-    { name: "Inicio", href: "#hero" },
+    { name: "Inicio", href: "#hero", sectionId: "hero" },
 
-    { name: "Productos", href: "#products" },
+    { name: "Productos", href: "#products", sectionId: "products" },
 
-    { name: "Quienes Somos", href: "#about" },
+    { name: "Quienes Somos", href: "#about", sectionId: "about" },
 
-    { name: "Contacto", href: "#contact" },
+    { name: "Contacto", href: "#contact", sectionId: "contact" },
 
   ];
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
+
+    e.preventDefault();
+
+    scrollToSection(sectionId);
+
+  };
 
 
 
@@ -146,19 +158,21 @@ export const StickyNavbar = () => {
 
         {navLinks.map((link) => (
 
-          <Link
+          <a
 
             key={link.name}
 
             href={link.href}
 
-            className="relative px-4 py-2 text-sm font-medium text-foreground/80 transition-colors hover:text-primary rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-800"
+            onClick={(e) => handleNavClick(e, link.sectionId)}
+
+            className="relative px-4 py-2 text-sm font-medium text-foreground/80 transition-colors hover:text-primary rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-800 cursor-pointer"
 
           >
 
             {link.name}
 
-          </Link>
+          </a>
 
         ))}
 
@@ -212,19 +226,21 @@ export const StickyNavbar = () => {
 
                 {navLinks.map((link) => (
 
-                  <Link 
+                  <a 
 
                     key={link.name} 
 
                     href={link.href}
 
-                    className="text-lg font-medium hover:text-primary transition-colors"
+                    onClick={(e) => handleNavClick(e, link.sectionId)}
+
+                    className="text-lg font-medium hover:text-primary transition-colors cursor-pointer"
 
                   >
 
                     {link.name}
 
-                  </Link>
+                  </a>
 
                 ))}
 

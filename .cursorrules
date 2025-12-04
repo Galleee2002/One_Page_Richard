@@ -83,3 +83,26 @@ DO NOT use generic Atomic Design (atoms/molecules) folders. Use Vertical Slices:
 
 - Always wrap async operations in try/catch (even inside mutations).
 - Use `sonner` or `toast` for user feedback on success/error.
+
+# User Interaction & Confirmation Protocol (STRICTLY ENFORCED)
+
+**This protocol MUST be followed without exception for every request.**
+
+1. **Clarification Check:** After receiving a request, ALWAYS ask at the end if anything is unclear before proceeding.
+
+2. **Pre-Action Reasoning:** Before modifying ANY files, you MUST:
+
+   - Explain what you understood from the request.
+   - Share your thought process about what changes you plan to make.
+   - Specify exactly which files will be modified and why.
+
+3. **Explicit Confirmation:** Before executing any file modifications, ALWAYS ask: "Do you want me to proceed with these changes?"
+
+4. **Scope Limitation:**
+
+   - Do ONLY what is explicitly requested.
+   - Do NOT make additional modifications "just in case" or "to improve things."
+   - Do NOT refactor unrelated code unless explicitly asked.
+   - Do NOT add features that weren't requested.
+
+5. **Strict Adherence:** These rules are non-negotiable and must be respected at all times.

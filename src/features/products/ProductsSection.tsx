@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { SmartProductGrid } from "./components/SmartProductGrid";
+import { CleanProductGrid } from "@/components/CleanProductGrid";
 import { ProductDrawer } from "./components/ProductDrawer";
 import { Product } from "@/types/product";
 
@@ -107,7 +107,7 @@ export const ProductsSection = () => {
         </div>
 
         {/* Grid de Productos */}
-        <SmartProductGrid
+        <CleanProductGrid
           products={MOCK_PRODUCTS}
           isLoading={isLoading}
           onProductSelect={handleProductSelect}
