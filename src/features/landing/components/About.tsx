@@ -2,7 +2,6 @@
 
 import React, { useRef, useState, useEffect } from "react";
 import { motion, useSpring, useMotionValue } from "framer-motion";
-import { ParticleBeams } from "./ParticleBeams";
 
 export const About = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -111,15 +110,6 @@ export const About = () => {
       onMouseLeave={() => setIsHovered(false)}
       className="relative w-full py-32 overflow-hidden bg-neutral-50 cursor-default"
     >
-      {/* --- PARTICLE BEAMS (Fondo Decorativo) --- */}
-      <ParticleBeams
-        containerRef={containerRef}
-        wordRefs={wordRefs}
-        videoRef={videoRef}
-        mouseX={mouseX}
-        mouseY={mouseY}
-      />
-
       <div className="container mx-auto px-6 relative z-10">
         {/* --- ETIQUETA --- */}
         <div className="mb-8">
@@ -262,10 +252,6 @@ export const About = () => {
         {/* Borde interno brillante (Glassmorphism) */}
         <div className="absolute inset-0 ring-1 ring-white/20 rounded-2xl pointer-events-none z-10" />
       </motion.div>
-
-      {/* --- BACKGROUND ACCENT (Móvil) --- */}
-      {/* En móvil, como no hay hover, mostramos un gradiente sutil fijo */}
-      <div className="absolute bottom-0 right-0 w-64 h-64 bg-secondary/5 blur-[100px] rounded-full pointer-events-none md:hidden" />
     </section>
   );
 };
